@@ -29,35 +29,54 @@ export function ShareScore({ score, bestScore, config, gameOver, won, grid }: Sh
 
   const getStatusEmoji = () => {
     if (won) return '🏆';
-    if (gameOver) return '🎮';
-    return '🎲';
+    if (gameOver) return '💥';
+    return '⛏️';
+  };
+
+  const getTileNameFromValue = (value: number) => {
+    const minecraftTiles = {
+      1: 'Dirt Block',
+      2: 'Stone Block',
+      4: 'Coal Ore',
+      8: 'Iron Ore',
+      16: 'Gold Ore',
+      32: 'Diamond Ore',
+      64: 'Iron Ingot',
+      128: 'Gold Ingot',
+      256: 'Diamond',
+      512: 'Enchanted Diamond',
+      1024: 'Nether Star',
+      2048: 'Ender Dragon Egg'
+    };
+    return minecraftTiles[value] || `Unknown Block (${value})`;
   };
 
   const handleShare = async () => {
     const largestTile = getLargestTile();
-    const gameStatus = won ? "Victory!" : gameOver ? "Game Over" : "In Progress";
+    const largestTileName = getTileNameFromValue(largestTile);
+    const gameStatus = won ? "Crafted the Ultimate Block!" : gameOver ? "Creeper Destroyed Your World!" : "Mining in Progress";
     
     const shareText = 
-`🎮 2048 ${getStatusEmoji()}
+`🧱 Minecraft 2048 ⛏️
 ━━━━━━━━━━
 ${gameStatus}
-🎯 Score: ${score.toLocaleString()}
-👑 Best: ${bestScore.toLocaleString()}
-💫 Largest Tile: ${largestTile.toLocaleString()}
-📊 Grid Size: ${config.gridSize}×${config.gridSize}
-🎯 Target: ${config.winningTile.toLocaleString()}
+🏆 Blocks Collected: ${score.toLocaleString()}
+👑 Best Collection: ${bestScore.toLocaleString()}
+💎 Rarest Block: ${largestTileName} (${largestTile.toLocaleString()})
+🌍 World Size: ${config.gridSize}×${config.gridSize}
+🎯 Ultimate Goal: ${getTileNameFromValue(config.winningTile)}
 ━━━━━━━━━━
-🌐 Play now: ${window.location.href}`;
+🌐 Start Your Mining Adventure: ${window.location.href}`;
 
     try {
       if (navigator.share) {
         await navigator.share({
-          title: '2048 Game Score',
+          title: 'Minecraft 2048 Block Collection',
           text: shareText,
         });
       } else {
         await navigator.clipboard.writeText(shareText);
-        alert('Score copied to clipboard!');
+        alert('Block Collection copied to clipboard!');
       }
     } catch (error) {
       console.error('Error sharing:', error);
@@ -66,48 +85,47 @@ ${gameStatus}
 
   const GameInstructions = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto dark:bg-gray-800">
+      <div className="bg-stone-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto text-white">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Game Instructions</h2>
+          <h2 className="text-2xl font-bold text-emerald-400">🧱 Minecraft Block Merger 🎮</h2>
           <Tooltip text="Close instructions">
             <button 
               onClick={() => setShowInstructions(false)}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-red-400 hover:text-red-600 text-2xl"
             >
               ×
             </button>
           </Tooltip>
         </div>
         <div className="space-y-4">
-          <p className="font-semibold text-lg">🎯 Game Objective</p>
-          <p>Combine tiles to reach the {config.winningTile} tile on a {config.gridSize}×{config.gridSize} grid!</p>
+          <p className="font-semibold text-lg text-yellow-400">🏆 Mining Objective</p>
+          <p>Combine Minecraft blocks to reach the legendary {getTileNameFromValue(config.winningTile)} on a {config.gridSize}×{config.gridSize} crafting grid!</p>
           
-          <p className="font-semibold text-lg mt-4">🏁 Basic Rules</p>
+          <p className="font-semibold text-lg mt-4 text-yellow-400">🧨 Block Merging Rules</p>
           <ul className="list-disc pl-5 space-y-2">
-            <li>Use arrow keys (←↑→↓) to move all tiles</li>
-            <li>Tiles with the same number merge when they collide</li>
-            <li>After each move, a new tile (2 or 4) appears in a random empty cell</li>
-            <li>Game ends when no more moves are possible or you reach the {config.winningTile} tile</li>
+            <li>Use arrow keys (←↑→↓) to slide and merge blocks</li>
+            <li>Blocks with the same type merge into a rarer block</li>
+            <li>After each move, a new basic block appears in a random empty cell</li>
+            <li>Game ends when no more merges are possible or you craft the {getTileNameFromValue(config.winningTile)}</li>
           </ul>
 
-          <p className="font-semibold text-lg mt-4">🧠 Advanced Strategies</p>
+          <p className="font-semibold text-lg mt-4 text-yellow-400">⛏️ Mining Strategies</p>
           <ul className="list-disc pl-5 space-y-2">
-            <li>Keep your highest-value tile in one corner</li>
-            <li>Try to maintain a consistent tile arrangement</li>
-            <li>Plan moves to create larger tile combinations</li>
-            <li>Use the grid edges to your advantage</li>
+            <li>Keep your rarest block in a corner</li>
+            <li>Plan block merges to create legendary items</li>
+            <li>Use grid edges like cave walls to your advantage</li>
+            <li>Think like a Minecraft master crafter!</li>
           </ul>
 
-          <p className="font-semibold text-lg mt-4">🎨 Customization Options</p>
+          <p className="font-semibold text-lg mt-4 text-yellow-400">🌍 World Customization</p>
           <ul className="list-disc pl-5 space-y-2">
-            <li>Grid Size: Choose from 3×3 to 6×6 to adjust difficulty</li>
-            <li>Winning Tile: Set your target from 256 to 16,384</li>
-            <li>Theme Selection: Personalize game appearance</li>
+            <li>Grid Size: Choose your world dimensions (3×3 to 6×6)</li>
+            <li>Ultimate Goal: Set your crafting target from basic blocks to legendary items</li>
             <li>Responsive design works on desktop and mobile</li>
           </ul>
 
-          <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-            💡 Pro Tip: Every move counts! Think strategically and aim to create larger tiles efficiently.
+          <p className="mt-4 text-sm text-gray-300">
+            💡 Pro Miner Tip: Every block merge counts! Craft strategically and become a Minecraft 2048 legend!
           </p>
         </div>
       </div>

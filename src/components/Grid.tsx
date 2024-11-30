@@ -27,11 +27,9 @@ export function Grid({ grid }: GridProps) {
       const touch = e.changedTouches[0];
       const deltaX = touch.clientX - touchStartRef.current.x;
       const deltaY = touch.clientY - touchStartRef.current.y;
-      const minSwipeDistance = 30; // minimum swipe distance in pixels
+      const minSwipeDistance = 30;
 
-      // Determine the primary direction of the swipe
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // Horizontal swipe
         if (Math.abs(deltaX) >= minSwipeDistance) {
           const event = new KeyboardEvent('keydown', {
             key: deltaX > 0 ? 'ArrowRight' : 'ArrowLeft'
@@ -39,7 +37,6 @@ export function Grid({ grid }: GridProps) {
           window.dispatchEvent(event);
         }
       } else {
-        // Vertical swipe
         if (Math.abs(deltaY) >= minSwipeDistance) {
           const event = new KeyboardEvent('keydown', {
             key: deltaY > 0 ? 'ArrowDown' : 'ArrowUp'
@@ -66,9 +63,9 @@ export function Grid({ grid }: GridProps) {
   }, []);
 
   const size = grid.length;
-  const containerSize = 400;
-  const gap = 8;
-  const padding = 8;
+  const containerSize = Math.min(400, window.innerWidth - 32); // Responsive but with max size
+  const gap = Math.floor(containerSize * 0.02); // 2% of container size
+  const padding = Math.floor(containerSize * 0.03); // 3% of container size
   const totalGaps = size - 1;
   const availableSpace = containerSize - (2 * padding) - (gap * totalGaps);
   const cellSize = Math.floor(availableSpace / size);
@@ -78,16 +75,19 @@ export function Grid({ grid }: GridProps) {
       ref={gridRef}
       className="relative rounded-lg overflow-hidden"
       style={{ 
-        backgroundColor: theme.gridBackground,
         width: `${containerSize}px`,
         height: `${containerSize}px`,
         padding: `${padding}px`,
+        background: 'linear-gradient(45deg, #2c2c2c, #4a4a4a)',
+        boxShadow: '0 0 20px rgba(0,0,0,0.3)',
+        border: '6px solid #1a1a1a',
       }}
     >
       {/* Grid background cells */}
       <div 
-        className="grid absolute inset-0 m-2"
+        className="grid absolute inset-0"
         style={{ 
+          margin: `${padding}px`,
           gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
           gap: `${gap}px`,
         }}
@@ -95,24 +95,32 @@ export function Grid({ grid }: GridProps) {
         {Array(size * size).fill(null).map((_, i) => (
           <div
             key={i}
-            className="rounded bg-opacity-20"
+            className="rounded-lg"
             style={{
-              backgroundColor: theme.gridCellBackground || 'rgba(0,0,0,0.1)',
+              backgroundColor: 'rgba(255,255,255,0.1)',
               width: `${cellSize}px`,
               height: `${cellSize}px`,
+              border: '2px solid rgba(255,255,255,0.15)',
+              boxShadow: 'inset 0 0 8px rgba(0,0,0,0.2)',
             }}
           />
         ))}
       </div>
       
       {/* Tiles */}
-      <div className="absolute inset-0 m-2">
+      <div 
+        className="absolute inset-0"
+        style={{ 
+          margin: `${padding}px`,
+        }}
+      >
         {grid.flat().map((tile) => 
           tile && (
             <TileComponent 
               key={tile.id} 
               tile={tile}
               cellSize={cellSize}
+              gap={gap}
             />
           )
         )}
