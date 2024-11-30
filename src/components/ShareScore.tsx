@@ -119,7 +119,7 @@ ${gameStatus}
 
           <p className="font-semibold text-lg mt-4 text-yellow-400">🌍 World Customization</p>
           <ul className="list-disc pl-5 space-y-2">
-            <li>Grid Size: Choose your world dimensions (3×3 to 6×6)</li>
+            <li>Grid Size: Choose your world dimensions (4×4 to 8×8)</li>
             <li>Ultimate Goal: Set your crafting target from basic blocks to legendary items</li>
             <li>Responsive design works on desktop and mobile</li>
           </ul>

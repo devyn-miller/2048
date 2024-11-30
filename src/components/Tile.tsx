@@ -4,15 +4,15 @@ import { useTheme } from '../contexts/ThemeContext';
 
 // Import Minecraft block images
 import dirtImage from './images/dirt.png';
-import ironOreImage from './images/iron-ore.webp';
-import ironImage from './images/iron.png';
-import polishedGraniteImage from './images/polished-granite.png';
+import cobblestoneImage from './images/cobblestone.png';
+import deepslateImage from './images/deepslate.png';
+import redstoneImage from './images/Block_of_Redstone_JE2_BE2.png'; 
 import ironBlockImage from './images/iron.png';
 import goldBlockImage from './images/Block_of_Gold_JE6_BE3.png';
 import diamondBlockImage from './images/Block_of_Diamond_JE6_BE3.png';
 import emeraldBlockImage from './images/Block_of_Emerald_JE4_BE3.png';
 import netheriteBlockImage from './images/Block_of_Netherite_JE1_BE1.png';
-import quartzBlockImage from './images/quartz.png';
+import pinkCoralBlockImage from './images/pink-coral.png';
 import beaconImage from './images/beacon.png';
 import endStoneImage from './images/end-stone.png';
 import obsidianImage from './images/obsidian.webp';
@@ -21,15 +21,15 @@ import eggImage from './images/egg.png';
 // Mapping of tile values to Minecraft block images
 const MINECRAFT_BLOCK_IMAGES: { [key: number]: string } = {
   2: dirtImage,
-  4: ironOreImage,
-  8: ironImage,
-  16: polishedGraniteImage,
+  4: cobblestoneImage,
+  8: deepslateImage,
+  16: redstoneImage,
   32: ironBlockImage,
   64: goldBlockImage,
   128: diamondBlockImage,
   256: emeraldBlockImage,
   512: netheriteBlockImage,
-  1024: quartzBlockImage,
+  1024: pinkCoralBlockImage,
   2048: beaconImage,
   4096: endStoneImage,
   8192: obsidianImage,
