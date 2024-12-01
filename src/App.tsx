@@ -200,7 +200,13 @@ function Game() {
           backgroundRepeat: 'no-repeat',
         }}
       />
-      <div className="relative z-10 min-h-screen w-full flex flex-col items-center justify-center">
+      <div 
+        className="relative z-10 min-h-screen w-full flex flex-col items-center justify-center p-4"
+        style={{ 
+          background: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(8px)',
+        }}
+      >
         {isMobile ? (
           <div className="text-center p-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-lg max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-4">Desktop Required</h2>
@@ -212,116 +218,111 @@ function Game() {
             </p>
           </div>
         ) : (
-          <div className="w-full max-w-2xl mx-auto px-4">
-            <div 
-              className="relative rounded-xl overflow-hidden"
-              style={{
-                background: 'rgba(255, 255, 255, 0.15)',
-                backdropFilter: 'blur(8px)',
-                padding: '20px',
-              }}
-            >
-              <div className="mb-8">
-                <div className="text-center mb-8">
-                  <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
-                    2048
-                  </h1>
-                  <p className="text-white text-lg drop-shadow">Join the numbers and get to {config.winningTile}!</p>
-                </div>
+          <div className="w-full max-w-md mx-auto px-4">
+            <div className="mb-8">
+              <div className="text-center mb-8">
+                <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
+                  2048
+                </h1>
+                <p className="text-white text-lg drop-shadow">Join the numbers and get to {config.winningTile}!</p>
+              </div>
 
-                <div className="flex justify-center gap-6 mb-8">
-                  <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105">
-                    <div className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Score</div>
-                    <div className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-                      {gameState.present.score.toLocaleString()}
-                    </div>
-                    {scoreAnimation && (
-                      <div 
-                        key={scoreAnimation.key}
-                        className="absolute -top-4 right-2 text-green-500 font-bold animate-fade-up"
-                      >
-                        +{scoreAnimation.points}
-                      </div>
-                    )}
+              {/* Score display */}
+              <div className="flex justify-center gap-6 mb-8">
+                <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105">
+                  <div className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Score</div>
+                  <div className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                    {gameState.present.score.toLocaleString()}
                   </div>
-                  <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105">
-                    <div className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Best</div>
-                    <div className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-                      {bestScore.toLocaleString()}
+                  {scoreAnimation && (
+                    <div 
+                      key={scoreAnimation.key}
+                      className="absolute -top-4 right-2 text-green-500 font-bold animate-fade-up"
+                    >
+                      +{scoreAnimation.points}
                     </div>
-                  </div>
+                  )}
                 </div>
-
-                <div className="flex items-center justify-center gap-3 mb-6">
-                  <Tooltip text="Open game settings">
-                    <button
-                      onClick={() => setShowSettings(true)}
-                      className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group"
-                      aria-label="Game settings"
-                    >
-                      <Settings size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
-                      <span className="sr-only">Settings</span>
-                    </button>
-                  </Tooltip>
-
-                  <ThemeSelector />
-
-                  <Tooltip text="Undo last move">
-                    <button
-                      onClick={handleUndo}
-                      disabled={gameState.past.length === 0}
-                      className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed"
-                      aria-label="Undo move"
-                    >
-                      <Undo size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
-                      <span className="sr-only">Undo</span>
-                    </button>
-                  </Tooltip>
-
-                  <Tooltip text="Redo last move">
-                    <button
-                      onClick={handleRedo}
-                      disabled={gameState.future.length === 0}
-                      className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed"
-                      aria-label="Redo move"
-                    >
-                      <Redo size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
-                      <span className="sr-only">Redo</span>
-                    </button>
-                  </Tooltip>
-
-                  <ShareScore 
-                    score={gameState.present.score}
-                    bestScore={bestScore}
-                    config={config}
-                    gameOver={gameOver}
-                    won={won}
-                    grid={gameState.present.grid}
-                  />
+                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105">
+                  <div className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Best</div>
+                  <div className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                    {bestScore.toLocaleString()}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex justify-center">
-                <Grid grid={gameState.present.grid} />
-              </div>
+              {/* Control buttons */}
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <Tooltip text="Open game settings">
+                  <button
+                    onClick={() => setShowSettings(true)}
+                    className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group"
+                    aria-label="Game settings"
+                  >
+                    <Settings size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
+                    <span className="sr-only">Settings</span>
+                  </button>
+                </Tooltip>
 
-              {(gameOver || won) && (
-                <div className="mt-8 text-center">
-                  <h2 className={`text-2xl font-bold mb-4 drop-shadow-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
-                    {won ? 'You Won!' : 'Game Over!'}
-                  </h2>
-                  <Tooltip text="Start a new game">
-                    <button
-                      onClick={resetGame}
-                      className="px-6 py-2 bg-blue-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-blue-600/90 transition-colors"
-                    >
-                      Try Again
-                    </button>
-                  </Tooltip>
-                </div>
-              )}
+                <ThemeSelector />
+
+                <Tooltip text="Undo last move">
+                  <button
+                    onClick={handleUndo}
+                    disabled={gameState.past.length === 0}
+                    className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed"
+                    aria-label="Undo move"
+                  >
+                    <Undo size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
+                    <span className="sr-only">Undo</span>
+                  </button>
+                </Tooltip>
+
+                <Tooltip text="Redo last move">
+                  <button
+                    onClick={handleRedo}
+                    disabled={gameState.future.length === 0}
+                    className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group disabled:opacity-50 disabled:cursor-not-allowed"
+                    aria-label="Redo move"
+                  >
+                    <Redo size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
+                    <span className="sr-only">Redo</span>
+                  </button>
+                </Tooltip>
+
+                <ShareScore 
+                  score={gameState.present.score}
+                  bestScore={bestScore}
+                  config={config}
+                  gameOver={gameOver}
+                  won={won}
+                  grid={gameState.present.grid}
+                />
+              </div>
             </div>
 
+            <div className="flex justify-center">
+              <Grid grid={gameState.present.grid} />
+            </div>
+
+            {/* Game over / win overlay */}
+            {(gameOver || won) && (
+              <div className="mt-8 text-center max-w-sm mx-auto">
+                <h2 className={`text-2xl font-bold mb-4 drop-shadow-lg ${won ? 'text-green-400' : 'text-red-400'}`}>
+                  {won ? 'You Won!' : 'Game Over!'}
+                </h2>
+                <Tooltip text="Start a new game">
+                  <button
+                    onClick={resetGame}
+                    className="px-6 py-2 bg-blue-500/90 backdrop-blur-sm text-white rounded-lg hover:bg-blue-600/90 transition-colors"
+                  >
+                    Try Again
+                  </button>
+                </Tooltip>
+              </div>
+            )}
+
+            {/* Settings modal */}
             {showSettings && (
               <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
                 <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
@@ -330,10 +331,19 @@ function Game() {
                     onConfigChange={handleConfigChange}
                     onClose={() => setShowSettings(false)}
                   />
+                  <Tooltip text="Close settings">
+                    <button 
+                      onClick={() => setShowSettings(false)}
+                      className="absolute top-2 right-2 text-white hover:text-gray-300"
+                    >
+                      ×
+                    </button>
+                  </Tooltip>
                 </div>
               </div>
             )}
 
+            {/* Theme editor modal */}
             {showThemeEditor && (
               <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
                 <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">

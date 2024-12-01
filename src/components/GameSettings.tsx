@@ -30,9 +30,9 @@ export function GameSettings({ config, onConfigChange, onClose }: GameSettingsPr
     setHasChanges(true);
   };
 
-  const handleWinningTileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newTile = parseInt(event.target.value);
-    const newConfig = { ...localConfig, winningTile: newTile };
+  const handleTargetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newTarget = parseInt(event.target.value);
+    const newConfig = { ...localConfig, winningTile: newTarget };
     setLocalConfig(newConfig);
     setHasChanges(true);
   };
@@ -43,16 +43,20 @@ export function GameSettings({ config, onConfigChange, onClose }: GameSettingsPr
     onClose();
   };
 
+  const winningTileOptions = [1024, 2048, 4096, 8192, 16384];
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-800">Game Settings</h2>
-        <button 
-          onClick={onClose}
-          className="text-gray-500 hover:text-gray-700"
-        >
-          ×
-        </button>
+        <Tooltip content="Close settings">
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 p-2"
+          >
+            ×
+          </button>
+        </Tooltip>
       </div>
 
       <div>
@@ -76,13 +80,14 @@ export function GameSettings({ config, onConfigChange, onClose }: GameSettingsPr
         <div className="flex items-center gap-2">
           <select
             value={localConfig.winningTile}
-            onChange={handleWinningTileChange}
+            onChange={handleTargetChange}
             className="bg-opacity-50 bg-black text-white rounded px-2 py-1"
           >
-            <option value={1024}>1024</option>
-            <option value={2048}>2048</option>
-            <option value={4096}>4096</option>
-            <option value={8192}>8192</option>
+            {winningTileOptions.map(target => (
+              <option key={target} value={target}>
+                {target.toLocaleString()}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -108,7 +113,7 @@ export function GameSettings({ config, onConfigChange, onClose }: GameSettingsPr
         <div className="flex justify-end">
           <button
             onClick={handleSaveChanges}
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Save Changes
           </button>
