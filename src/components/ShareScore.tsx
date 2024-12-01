@@ -85,19 +85,21 @@ ${gameStatus}
 
   const GameInstructions = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-stone-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto text-white">
+      <div className="bg-stone-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] relative text-white">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-emerald-400">🧱 Minecraft Block Merger 🎮</h2>
-          <Tooltip text="Close instructions">
-            <button 
-              onClick={() => setShowInstructions(false)}
-              className="text-red-400 hover:text-red-600 text-2xl"
-            >
-              ×
-            </button>
-          </Tooltip>
+          <div className="relative z-[200]">
+            <Tooltip text="Close instructions">
+              <button 
+                onClick={() => setShowInstructions(false)}
+                className="text-red-400 hover:text-red-600 text-2xl"
+              >
+                ×
+              </button>
+            </Tooltip>
+          </div>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 overflow-y-auto max-h-[calc(90vh-120px)]">
           <p className="font-semibold text-lg text-yellow-400">🏆 Mining Objective</p>
           <p>Combine Minecraft blocks to reach the legendary {getTileNameFromValue(config.winningTile)} on a {config.gridSize}×{config.gridSize} crafting grid!</p>
           

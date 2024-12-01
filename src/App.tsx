@@ -7,7 +7,6 @@ import { Settings, Rotate3D, Share2, Palette, Undo, Redo } from 'lucide-react';
 import { ThemeEditor } from './components/ThemeEditor';
 import { GameSettings } from './components/GameSettings';
 import { ShareScore } from './components/ShareScore';
-import { ThemeSelector } from './components/ThemeSelector';
 import { Footer } from './components/Footer';
 import { Tooltip } from './components/Tooltip';
 import { BackgroundProvider, useBackground, backgroundThemes } from './contexts/BackgroundContext';
@@ -263,8 +262,6 @@ function Game() {
                     <span className="sr-only">Settings</span>
                   </button>
                 </Tooltip>
-
-                <ThemeSelector />
 
                 <Tooltip text="Undo last move">
                   <button
