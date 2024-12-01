@@ -115,7 +115,7 @@ export function Tile({ tile, cellSize, gap }: TileProps) {
     position: 'absolute',
     bottom: '-1px', // Slightly lower
     right: '8px', // Slightly lower
-    fontSize: '20px', // Increased font size
+    fontSize: '16px', // Reduced font size
     fontWeight: 'bold',
     color: 'white',
     textShadow: '2px 2px 3px rgba(0,0,0,0.6)', // Slightly stronger shadow

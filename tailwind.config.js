@@ -3,8 +3,10 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      'minecraft': ['Minecraft', 'Courier New', 'monospace'],
-      'sans': ['Minecraft', 'Courier New', 'monospace'],
+      'sans': ['Roboto Mono', 'monospace'],
+      'alt-sans': ['Space Mono', 'monospace'],
+      'pixel': ['Press Start 2P', 'cursive'],
+      'heading': ['Press Start 2P', 'cursive'],
     },
     extend: {},
   },

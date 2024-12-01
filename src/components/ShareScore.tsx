@@ -56,24 +56,21 @@ export function ShareScore({ score, bestScore, config, gameOver, won, grid }: Sh
     const largestTileName = getTileNameFromValue(largestTile);
     const gameStatus = won ? "Crafted the Ultimate Block!" : gameOver ? "Creeper Destroyed Your World!" : "Mining in Progress";
     
-    const shareText = 
-`🧱 Minecraft 2048 ⛏️
-━━━━━━━━━━
-${gameStatus}
-🏆 Blocks Collected: ${score.toLocaleString()}
-👑 Best Collection: ${bestScore.toLocaleString()}
-💎 Rarest Block: ${largestTileName} (${largestTile.toLocaleString()})
-🌍 World Size: ${config.gridSize}×${config.gridSize}
-🎯 Ultimate Goal: ${getTileNameFromValue(config.winningTile)}
-━━━━━━━━━━
-🌐 Start Your Mining Adventure: ${window.location.href}`;
+    const shareText = `🧱 MineMerge ⛏️
+Crafted ${getTileNameFromValue(config.winningTile)} on a ${config.gridSize}×${config.gridSize} crafting grid!
+
+💡 Pro Miner Tip: Every block merge counts! Craft strategically and become a MineMerge legend!
+
+Score: ${score}`;
+
+    const shareData = {
+      title: 'MineMerge Block Collection',
+      text: shareText,
+    };
 
     try {
       if (navigator.share) {
-        await navigator.share({
-          title: 'Minecraft 2048 Block Collection',
-          text: shareText,
-        });
+        await navigator.share(shareData);
       } else {
         await navigator.clipboard.writeText(shareText);
         alert('Block Collection copied to clipboard!');
@@ -123,7 +120,6 @@ ${gameStatus}
           <ul className="list-disc pl-5 space-y-2">
             <li>Grid Size: Choose your world dimensions (4×4 to 8×8)</li>
             <li>Ultimate Goal: Set your crafting target from basic blocks to legendary items</li>
-            <li>Responsive design works on desktop and mobile</li>
           </ul>
 
           <p className="mt-4 text-sm text-gray-300">

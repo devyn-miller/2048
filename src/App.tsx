@@ -12,12 +12,12 @@ import { Tooltip } from './components/Tooltip';
 import { BackgroundProvider, useBackground, backgroundThemes } from './contexts/BackgroundContext';
 import { AudioProvider, useAudio } from './contexts/AudioContext';
 
-function Game() {
+function MineMerge() {
   const { currentTheme, setCurrentTheme } = useBackground();
   const { playBreakSound, toggleBackgroundMusic, isMusicPlaying } = useAudio();
   const [config, setConfig] = useState<GameConfig>({
     gridSize: 4,
-    winningTile: 2048,
+    winningTile: 4096,
     theme: currentTheme
   });
   
@@ -180,10 +180,10 @@ function Game() {
   };
 
   const shareGame = () => {
-    const shareText = `I scored ${gameState.present.score} points in 2048! Can you beat my score? Play at ${window.location.href}`;
+    const shareText = `I scored ${gameState.present.score} points in MineMerge! Can you beat my score? Play at ${window.location.href}`;
     if (navigator.share) {
       navigator.share({
-        title: '2048 Game',
+        title: 'MineMerge Game',
         text: shareText,
         url: window.location.href,
       });
@@ -219,17 +219,19 @@ function Game() {
           <div className="w-full max-w-md mx-auto">
             <div className="mb-8">
               <div className="text-center mb-8">
-                <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] tracking-wider font-minecraft">
-                  2048
-                </h1>
-                <p className="text-xl text-white font-semibold drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] font-minecraft">
-                  Join the numbers and get to 2048!
+                <img 
+                  src="/2048-nov-29-2024/MineMerge.png" 
+                  alt="MineMerge" 
+                  className="mx-auto mb-2 max-h-24 object-contain" 
+                />
+                <p className="text-base text-white font-semibold drop-shadow-[0_3px_3px_rgba(0,0,0,1)] font-heading bg-black/50 px-4 py-2 rounded-lg inline-block">
+                  Merge Minecraft blocks to create legendary tiles!
                 </p>
               </div>
 
               {/* Score display */}
               <div className="flex justify-center gap-6 mb-8">
-                <div className="relative bg-green-600/90 rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105 border-2 border-green-700/50 font-minecraft">
+                <div className="relative bg-green-600/90 rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105 border-2 border-green-700/50 font-pixel">
                   <div className="text-sm font-semibold text-white mb-1">XP Points</div>
                   <div className="text-2xl font-bold text-white">
                     {gameState.present.score.toLocaleString()}
@@ -237,13 +239,13 @@ function Game() {
                   {scoreAnimation && (
                     <div 
                       key={scoreAnimation.key}
-                      className="absolute -top-4 right-2 text-yellow-300 font-bold animate-fade-up font-minecraft"
+                      className="absolute -top-4 right-2 text-yellow-300 font-bold animate-fade-up font-pixel"
                     >
                       +{scoreAnimation.points}
                     </div>
                   )}
                 </div>
-                <div className="bg-blue-600/90 rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105 border-2 border-blue-700/50 font-minecraft">
+                <div className="bg-blue-600/90 rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105 border-2 border-blue-700/50 font-pixel">
                   <div className="text-sm font-semibold text-white mb-1">Best Loot</div>
                   <div className="text-2xl font-bold text-white">
                     {bestScore.toLocaleString()}
@@ -364,7 +366,7 @@ export default function App() {
         <AudioProvider>
           <div className="min-h-screen flex flex-col">
             <div className="flex-grow relative">
-              <Game />
+              <MineMerge />
             </div>
             <div className="relative z-10">
               <Footer />

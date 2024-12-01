@@ -2,15 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Minecraft';
-  src: url('/MinecraftRegular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
+body {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 18px; /* Slightly adjusted for Roboto Mono */
+  letter-spacing: 0.5px; /* Slight letter spacing for better readability */
 }
 
-body {
-  font-family: 'Minecraft', 'Courier New', monospace;
+h1, h2, h3, .heading {
+  font-family: 'Press Start 2P', cursive;
 }
 
 @keyframes fade-up {
