@@ -189,23 +189,17 @@ function Game() {
   };
 
   return (
-    <div className="relative min-h-screen">
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${backgroundThemes[currentTheme].backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
-      <div 
-        className="relative z-10 min-h-screen w-full flex flex-col items-center justify-center p-4"
-        style={{ 
-          background: 'rgba(255, 255, 255, 0.15)',
-          backdropFilter: 'blur(8px)',
-        }}
-      >
+    <div 
+      className={`
+        relative min-h-screen flex flex-col items-center justify-center 
+        bg-cover bg-center bg-no-repeat 
+        ${backgroundThemes[currentTheme].backgroundImage}
+      `}
+    >
+      {/* Light overlay without blur */}
+      <div className="absolute inset-0 bg-white/15 z-10"></div>
+
+      <div className="relative z-20 w-full max-w-md px-4">
         {isMobile ? (
           <div className="text-center p-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-lg max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-4">Desktop Required</h2>
@@ -217,7 +211,7 @@ function Game() {
             </p>
           </div>
         ) : (
-          <div className="w-full max-w-md mx-auto px-4">
+          <div className="w-full max-w-md mx-auto">
             <div className="mb-8">
               <div className="text-center mb-8">
                 <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
@@ -360,10 +354,12 @@ export default function App() {
     <ThemeProvider>
       <BackgroundProvider>
         <div className="min-h-screen flex flex-col">
-          <div className="flex-grow container mx-auto px-4 py-8">
+          <div className="flex-grow">
             <Game />
           </div>
-          <Footer />
+          <div className="relative z-20">
+            <Footer />
+          </div>
         </div>
       </BackgroundProvider>
     </ThemeProvider>

@@ -1,8 +1,4 @@
 import React, { createContext, useContext, useState } from 'react';
-import mountainCavernsImg from '../components/backgrounds/Mountain-Caverns.jpg';
-import junglewoodGroveImg from '../components/backgrounds/Junglewood-Grove.png';
-import mobsMinesImg from '../components/backgrounds/Mobs-and-Mines.jpeg';
-import sunsetSanctuaryImg from '../components/backgrounds/sunset-sanctuary.jpg';
 
 interface BackgroundTheme {
   name: string;
@@ -13,22 +9,22 @@ interface BackgroundTheme {
 export const backgroundThemes = {
   mountainCaverns: {
     name: 'Mountain Caverns',
-    backgroundImage: mountainCavernsImg,
+    backgroundImage: 'bg-[url("/backgrounds/Mountain-Caverns.jpg")]',
     textColor: '#B8E3FF',
   },
   junglewood: {
     name: 'Junglewood Grove',
-    backgroundImage: junglewoodGroveImg,
+    backgroundImage: 'bg-[url("/backgrounds/Junglewood-Grove.png")]',
     textColor: '#E2D3BC',
   },
   mobsMines: {
     name: 'Mobs & Mines',
-    backgroundImage: mobsMinesImg,
+    backgroundImage: 'bg-[url("/backgrounds/Mobs-and-Mines.jpeg")]',
     textColor: '#FFE8B6',
   },
   sunsetSanctuary: {
     name: 'Sunset Sanctuary',
-    backgroundImage: sunsetSanctuaryImg,
+    backgroundImage: 'bg-[url("/backgrounds/sunset-sanctuary.jpg")]',
     textColor: '#FFD700',
   }
 };
