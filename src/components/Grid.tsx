@@ -73,23 +73,28 @@ export function Grid({ grid }: GridProps) {
   return (
     <div 
       ref={gridRef}
-      className="relative rounded-lg overflow-hidden"
+      className="relative rounded-lg overflow-hidden mx-auto"
       style={{ 
         width: `${containerSize}px`,
         height: `${containerSize}px`,
         padding: `${padding}px`,
-        background: 'linear-gradient(45deg, #2c2c2c, #4a4a4a)',
-        boxShadow: '0 0 20px rgba(0,0,0,0.3)',
-        border: '6px solid #1a1a1a',
+        background: 'linear-gradient(45deg, #1a1a1a, #2c2c2c)',
+        boxShadow: '0 0 20px rgba(0,0,0,0.5)',
+        border: '8px solid #0a0a0a',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       {/* Grid background cells */}
       <div 
-        className="grid absolute inset-0"
+        className="grid absolute"
         style={{ 
-          margin: `${padding}px`,
           gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
           gap: `${gap}px`,
+          padding: `${padding}px`,
+          backgroundColor: '#1a1a1a',
+          borderRadius: '8px',
         }}
       >
         {Array(size * size).fill(null).map((_, i) => (
@@ -97,10 +102,10 @@ export function Grid({ grid }: GridProps) {
             key={i}
             className="rounded-lg"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.1)',
+              backgroundColor: 'rgba(255,255,255,0.03)',
               width: `${cellSize}px`,
               height: `${cellSize}px`,
-              border: '2px solid rgba(255,255,255,0.15)',
+              border: '3px solid rgba(255,255,255,0.1)',
               boxShadow: 'inset 0 0 8px rgba(0,0,0,0.2)',
             }}
           />
@@ -109,9 +114,15 @@ export function Grid({ grid }: GridProps) {
       
       {/* Tiles */}
       <div 
-        className="absolute inset-0"
+        className="absolute"
         style={{ 
-          margin: `${padding}px`,
+          width: `${size * (cellSize + gap) - gap}px`,
+          height: `${size * (cellSize + gap) - gap}px`,
+          padding: `${padding}px`,
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         {grid.flat().map((tile) => 

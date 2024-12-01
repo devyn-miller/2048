@@ -20,7 +20,8 @@ export type Tile = {
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
-export type GameConfig = {
+export interface GameConfig {
   gridSize: number;
   winningTile: number;
-};
+  theme: 'mountainCaverns' | 'junglewood' | 'mobsMines' | 'sunsetSanctuary';
+}
