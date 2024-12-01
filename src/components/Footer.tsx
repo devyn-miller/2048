@@ -30,9 +30,7 @@ export function Footer() {
         
         <div className="text-sm text-gray-600 space-y-2">
           <p>
-                                <p>
             Built with <Heart className="inline-block w-4 h-4 text-red-500 mx-1 fill-current" style={{ transform: 'translateY(-2px)' }} /> by <a href="https://devyn-miller.github.io/profile-/" className="font-bold text-blue-600 hover:text-blue-800 transition-colors">Devyn Miller</a>
-          </p>
           </p>
           <p> {currentYear} All rights reserved</p>
         </div>

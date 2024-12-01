@@ -219,33 +219,33 @@ function Game() {
           <div className="w-full max-w-md mx-auto">
             <div className="mb-8">
               <div className="text-center mb-8">
-                <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] tracking-wider">
+                <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] tracking-wider font-minecraft">
                   2048
                 </h1>
-                <p className="text-xl text-white font-semibold drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                <p className="text-xl text-white font-semibold drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] font-minecraft">
                   Join the numbers and get to 2048!
                 </p>
               </div>
 
               {/* Score display */}
               <div className="flex justify-center gap-6 mb-8">
-                <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105">
-                  <div className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Score</div>
-                  <div className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                <div className="relative bg-green-600/90 rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105 border-2 border-green-700/50 font-minecraft">
+                  <div className="text-sm font-semibold text-white mb-1">XP Points</div>
+                  <div className="text-2xl font-bold text-white">
                     {gameState.present.score.toLocaleString()}
                   </div>
                   {scoreAnimation && (
                     <div 
                       key={scoreAnimation.key}
-                      className="absolute -top-4 right-2 text-green-500 font-bold animate-fade-up"
+                      className="absolute -top-4 right-2 text-yellow-300 font-bold animate-fade-up font-minecraft"
                     >
                       +{scoreAnimation.points}
                     </div>
                   )}
                 </div>
-                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105">
-                  <div className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Best</div>
-                  <div className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                <div className="bg-blue-600/90 rounded-lg p-4 w-40 shadow-lg transition-transform hover:scale-105 border-2 border-blue-700/50 font-minecraft">
+                  <div className="text-sm font-semibold text-white mb-1">Best Loot</div>
+                  <div className="text-2xl font-bold text-white">
                     {bestScore.toLocaleString()}
                   </div>
                 </div>

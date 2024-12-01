@@ -36,6 +36,24 @@ const MINECRAFT_BLOCK_IMAGES: { [key: number]: string } = {
   16384: dragonImage
 };
 
+// Minecraft-inspired color palette for tiles
+const MINECRAFT_TILE_COLORS = {
+  2: 'bg-[#8BC34A]', // Light green (grass block)
+  4: 'bg-[#4CAF50]', // Darker green
+  8: 'bg-[#FF9800]', // Orange (like terracotta)
+  16: 'bg-[#FF5722]', // Deep orange
+  32: 'bg-[#F44336]', // Red (like redstone block)
+  64: 'bg-[#9C27B0]', // Purple (like amethyst)
+  128: 'bg-[#673AB7]', // Deep purple
+  256: 'bg-[#3F51B5]', // Indigo
+  512: 'bg-[#2196F3]', // Blue
+  1024: 'bg-[#00BCD4]', // Cyan
+  2048: 'bg-[#009688]', // Teal (like emerald block)
+  4096: 'bg-[#4CAF50]', // Green
+  8192: 'bg-[#795548]', // Brown (like dirt)
+  16384: 'bg-[#607D8B]', // Gray (like stone)
+};
+
 interface TileProps {
   tile: TileType;
   cellSize: number;
@@ -54,7 +72,15 @@ export function Tile({ tile, cellSize, gap }: TileProps) {
       return () => clearTimeout(timer);
     }
   }, [merging]);
-  
+
+  // Determine text color based on tile value
+  const getTextColor = (tileValue: number) => {
+    return tileValue > 4 ? 'text-white' : 'text-gray-800';
+  };
+
+  // Determine background color with Minecraft-inspired palette
+  const bgColor = MINECRAFT_TILE_COLORS[value as keyof typeof MINECRAFT_TILE_COLORS] || 'bg-gray-300';
+
   const containerStyle = {
     transform: `translate(${position.col * (cellSize + gap)}px, ${position.row * (cellSize + gap)}px)`,
     transition: 'all 100ms ease-in-out',
@@ -79,6 +105,25 @@ export function Tile({ tile, cellSize, gap }: TileProps) {
     alignItems: 'center',
     animation: isAnimating ? 'tileSpawn 400ms ease-in-out' : undefined,
     transform: 'translateX(-6px)',
+    className: `
+      relative w-full h-full flex items-center justify-center 
+      ${bgColor} 
+      ${getTextColor(value)}
+      font-bold text-2xl
+      transform transition-all duration-200
+      border-4 border-gray-700/30
+      shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2)]
+      rounded-sm
+      ${isAnimating ? 'animate-pop' : ''}
+    `,
+    style: {
+      // Pixelated border effect
+      boxShadow: `
+        inset 0 0 0 1px rgba(0,0,0,0.1),
+        inset -1px -1px 0 1px rgba(0,0,0,0.1),
+        inset 1px 1px 0 1px rgba(255,255,255,0.2)
+      `
+    }
   };
 
   const glowStyle = {
@@ -192,6 +237,12 @@ export function Tile({ tile, cellSize, gap }: TileProps) {
           @keyframes sparkleSpin2 {
             from { transform: rotate(360deg) scale(0.8); }
             to { transform: rotate(0deg) scale(0.8); }
+          }
+
+          @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
           }
         `}
       </style>
