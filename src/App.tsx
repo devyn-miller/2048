@@ -214,10 +214,12 @@ function Game() {
           <div className="w-full max-w-md mx-auto">
             <div className="mb-8">
               <div className="text-center mb-8">
-                <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
+                <h1 className="text-5xl md:text-6xl font-bold text-white mb-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] tracking-wider">
                   2048
                 </h1>
-                <p className="text-white text-lg drop-shadow">Join the numbers and get to {config.winningTile}!</p>
+                <p className="text-xl text-white font-semibold drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                  Join the numbers and get to 2048!
+                </p>
               </div>
 
               {/* Score display */}
