@@ -3,16 +3,18 @@ import { Grid } from './components/Grid';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { Tile, Direction, GameConfig } from './types/game';
 import { createInitialGrid, move, addRandomTile, isGameOver, hasWon, createEmptyGrid } from './utils/gameLogic';
-import { Settings, Rotate3D, Share2, Palette, Undo, Redo } from 'lucide-react';
+import { Settings, Rotate3D, Share2, Palette, Undo, Redo, Pause, Play } from 'lucide-react';
 import { ThemeEditor } from './components/ThemeEditor';
 import { GameSettings } from './components/GameSettings';
 import { ShareScore } from './components/ShareScore';
 import { Footer } from './components/Footer';
 import { Tooltip } from './components/Tooltip';
 import { BackgroundProvider, useBackground, backgroundThemes } from './contexts/BackgroundContext';
+import { AudioProvider, useAudio } from './contexts/AudioContext';
 
 function Game() {
   const { currentTheme, setCurrentTheme } = useBackground();
+  const { playBreakSound, toggleBackgroundMusic, isMusicPlaying } = useAudio();
   const [config, setConfig] = useState<GameConfig>({
     gridSize: 4,
     winningTile: 2048,
@@ -89,8 +91,8 @@ function Game() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handleMove = useCallback((newGrid: Tile[][], newScore: number) => {
-    const pointsGained = newScore - gameState.present.score;
+  const handleMove = useCallback((newGrid: Tile[][], points: number) => {
+    const pointsGained = points;
     if (pointsGained > 0) {
       setScoreAnimation({ points: pointsGained, key: Date.now() });
       setTimeout(() => setScoreAnimation(null), 500);
@@ -98,9 +100,12 @@ function Game() {
     dispatch({ 
       type: 'MOVE', 
       grid: newGrid, 
-      score: newScore 
+      score: gameState.present.score + points 
     });
-  }, [gameState.present.score]);
+    if (points > 0) {
+      playBreakSound();
+    }
+  }, [gameState.present.score, playBreakSound]);
 
   const handleUndo = useCallback(() => {
     dispatch({ type: 'UNDO' });
@@ -136,7 +141,7 @@ function Game() {
       const { grid: newGrid, moved, score: points } = move(gameState.present.grid, direction);
       if (moved) {
         const gridWithNewTile = addRandomTile(newGrid);
-        handleMove(gridWithNewTile, gameState.present.score + points);
+        handleMove(gridWithNewTile, points);
         
         if (hasWon(gridWithNewTile, config.winningTile)) {
           setWon(true);
@@ -247,17 +252,18 @@ function Game() {
               </div>
 
               {/* Control buttons */}
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Tooltip text="Open game settings">
-                  <button
-                    onClick={() => setShowSettings(true)}
-                    className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group"
-                    aria-label="Game settings"
-                  >
-                    <Settings size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
-                    <span className="sr-only">Settings</span>
-                  </button>
-                </Tooltip>
+              <div className="flex justify-between items-center mb-4">
+                <div className="flex gap-2">
+                  <Tooltip text="Settings">
+                    <button
+                      onClick={() => setShowSettings(true)}
+                      className="p-3 rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm hover:bg-white/95 dark:hover:bg-gray-700/95 transition-all shadow-md hover:shadow-lg group"
+                    >
+                      <Settings size={22} className="group-hover:scale-110 transition-transform text-gray-700 dark:text-gray-300" />
+                      <span className="sr-only">Settings</span>
+                    </button>
+                  </Tooltip>
+                </div>
 
                 <Tooltip text="Undo last move">
                   <button
@@ -355,14 +361,16 @@ export default function App() {
   return (
     <ThemeProvider>
       <BackgroundProvider>
-        <div className="min-h-screen flex flex-col">
-          <div className="flex-grow">
-            <Game />
+        <AudioProvider>
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow">
+              <Game />
+            </div>
+            <div className="relative z-20">
+              <Footer />
+            </div>
           </div>
-          <div className="relative z-20">
-            <Footer />
-          </div>
-        </div>
+        </AudioProvider>
       </BackgroundProvider>
     </ThemeProvider>
   );

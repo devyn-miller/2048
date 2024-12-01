@@ -3,6 +3,7 @@ import { GameConfig } from '../types/game';
 import { Save } from 'lucide-react';
 import { Tooltip } from './Tooltip';
 import { useBackground, backgroundThemes } from '../contexts/BackgroundContext';
+import { useAudio } from '../contexts/AudioContext';
 
 interface GameSettingsProps {
   config: GameConfig;
@@ -14,6 +15,14 @@ export function GameSettings({ config, onConfigChange, onClose }: GameSettingsPr
   const [localConfig, setLocalConfig] = useState(config);
   const [hasChanges, setHasChanges] = useState(false);
   const { setCurrentTheme } = useBackground();
+  const { 
+    musicVolume, 
+    setMusicVolume, 
+    effectsVolume, 
+    setEffectsVolume,
+    toggleBackgroundMusic,
+    isMusicPlaying
+  } = useAudio();
 
   const handleGridSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = parseInt(event.target.value);
@@ -106,6 +115,49 @@ export function GameSettings({ config, onConfigChange, onClose }: GameSettingsPr
               </option>
             ))}
           </select>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-medium mb-4">Audio Settings</h3>
+        <div className="space-y-4">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm text-gray-200">Background Music</label>
+              <span className="text-xs text-gray-400">{Math.round(musicVolume * 100)}%</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={musicVolume}
+              onChange={(e) => {
+                const newVolume = parseFloat(e.target.value);
+                setMusicVolume(newVolume);
+                if (newVolume > 0 && !isMusicPlaying) {
+                  toggleBackgroundMusic();
+                }
+              }}
+              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm text-gray-200">Sound Effects</label>
+              <span className="text-xs text-gray-400">{Math.round(effectsVolume * 100)}%</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={effectsVolume}
+              onChange={(e) => setEffectsVolume(parseFloat(e.target.value))}
+              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
         </div>
       </div>
 
