@@ -119,44 +119,35 @@ export function GameSettings({ config, onConfigChange, onClose }: GameSettingsPr
       </div>
 
       <div>
-        <h3 className="text-lg font-medium mb-4">Audio Settings</h3>
+        <h3 className="text-lg font-medium mb-4 text-gray-800">Audio Settings</h3>
         <div className="space-y-4">
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="text-sm text-gray-200">Background Music</label>
-              <span className="text-xs text-gray-400">{Math.round(musicVolume * 100)}%</span>
+          <div className="flex items-center justify-between">
+            <label className="text-gray-800 mr-4">Background Music</label>
+            <div className="flex items-center">
+              <input 
+                type="range" 
+                min="0" 
+                max="100" 
+                value={musicVolume * 100}
+                onChange={(e) => setMusicVolume(parseInt(e.target.value) / 100)}
+                className="w-32 mr-2 accent-green-600"
+              />
+              <span className="text-gray-800 w-8 text-right">{Math.round(musicVolume * 100)}%</span>
             </div>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={musicVolume}
-              onChange={(e) => {
-                const newVolume = parseFloat(e.target.value);
-                setMusicVolume(newVolume);
-                if (newVolume > 0 && !isMusicPlaying) {
-                  toggleBackgroundMusic();
-                }
-              }}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
           </div>
-
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="text-sm text-gray-200">Sound Effects</label>
-              <span className="text-xs text-gray-400">{Math.round(effectsVolume * 100)}%</span>
+          <div className="flex items-center justify-between">
+            <label className="text-gray-800 mr-4">Sound Effects</label>
+            <div className="flex items-center">
+              <input 
+                type="range" 
+                min="0" 
+                max="100" 
+                value={effectsVolume * 100}
+                onChange={(e) => setEffectsVolume(parseInt(e.target.value) / 100)}
+                className="w-32 mr-2 accent-green-600"
+              />
+              <span className="text-gray-800 w-8 text-right">{Math.round(effectsVolume * 100)}%</span>
             </div>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={effectsVolume}
-              onChange={(e) => setEffectsVolume(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
           </div>
         </div>
       </div>

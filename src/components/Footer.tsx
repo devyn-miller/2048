@@ -5,17 +5,17 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white py-8">
-      <div className="container mx-auto px-4 text-center">
-        <div className="flex justify-center space-x-6 mb-6">
+    <footer className="bg-white/10 backdrop-blur-sm py-4">
+      <div className="container mx-auto px-4 flex flex-col items-center justify-center text-center">
+        <div className="flex items-center space-x-4 mb-2">
           <a 
-            href="https://github.com/devyn-miller" 
+            href="https://github.com/Devyn-Miller" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900 transition-colors"
             aria-label="GitHub Profile"
           >
-            <Github size={28} />
+            <Github size={24} />
           </a>
           <a 
             href="https://linkedin.com/in/devyn-c-miller/" 
@@ -24,15 +24,15 @@ export function Footer() {
             className="text-gray-600 hover:text-gray-900 transition-colors"
             aria-label="LinkedIn Profile"
           >
-            <Linkedin size={28} />
+            <Linkedin size={24} />
           </a>
         </div>
         
-        <div className="text-sm text-gray-600 space-y-2">
+        <div className="text-sm text-gray-600 space-y-1">
           <p>
-            Built with <Heart className="inline-block w-4 h-4 text-red-500 mx-1 fill-current" style={{ transform: 'translateY(-2px)' }} /> by <a href="https://devyn-miller.github.io/profile-/" className="font-bold text-blue-600 hover:text-blue-800 transition-colors">Devyn Miller</a>
+            Built with <Heart className="inline-block w-3 h-3 text-red-500 mx-1 fill-current" style={{ transform: 'translateY(-1px)' }} /> by <a href="https://devyn-miller.github.io/profile-/" className="font-bold text-blue-600 hover:text-blue-800 transition-colors">Devyn Miller</a>
           </p>
-          <p> {currentYear} All rights reserved</p>
+          <p className="text-xs"> {currentYear} All rights reserved</p>
         </div>
       </div>
     </footer>

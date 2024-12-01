@@ -75,185 +75,67 @@ export function Tile({ tile, cellSize, gap }: TileProps) {
 
   // Determine text color based on tile value
   const getTextColor = (tileValue: number) => {
-    return tileValue > 4 ? 'text-white' : 'text-gray-800';
+    return 'text-white'; // Always use white text
   };
 
-  // Determine background color with Minecraft-inspired palette
-  const bgColor = MINECRAFT_TILE_COLORS[value as keyof typeof MINECRAFT_TILE_COLORS] || 'bg-gray-300';
-
-  const containerStyle = {
-    transform: `translate(${position.col * (cellSize + gap)}px, ${position.row * (cellSize + gap)}px)`,
-    transition: 'all 100ms ease-in-out',
+  const tileStyle = {
+    border: '4px solid transparent', // Base border
+    borderImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Crect width='4' height='4' fill='%23000000' /%3E%3Crect x='8' width='4' height='4' fill='%23000000' /%3E%3Crect y='8' width='4' height='4' fill='%23000000' /%3E%3Crect x='8' y='8' width='4' height='4' fill='%23000000' /%3E%3C/svg%3E") 4 repeat`,
+    borderImageSlice: 4,
+    boxShadow: '2px 2px 4px rgba(0,0,0,0.3)', // Slight 3D effect
+    backgroundColor: 'rgba(255,255,255,0.1)', // Slight background to mimic block depth
+    transform: `translate(${position.col * (cellSize + gap)}px, ${position.row * (cellSize + gap)}px) scale(${merging ? 1.1 : 1})`, // Slight scale effect on merge
+    transition: 'all 200ms ease-in-out',
     position: 'absolute' as const,
     width: `${cellSize}px`,
     height: `${cellSize}px`,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
     zIndex: 10,
     left: -2,
     top: 0,
   };
 
-  const imageContainerStyle = {
-    width: '100%',
-    height: '100%',
-    position: 'relative' as const,
+  const blockStyle = {
+    width: '90%',
+    height: '90%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    animation: isAnimating ? 'tileSpawn 400ms ease-in-out' : undefined,
-    transform: 'translateX(-6px)',
-    className: `
-      relative w-full h-full flex items-center justify-center 
-      ${bgColor} 
-      ${getTextColor(value)}
-      font-bold text-2xl
-      transform transition-all duration-200
-      border-4 border-gray-700/30
-      shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2)]
-      rounded-sm
-      ${isAnimating ? 'animate-pop' : ''}
-    `,
-    style: {
-      // Pixelated border effect
-      boxShadow: `
-        inset 0 0 0 1px rgba(0,0,0,0.1),
-        inset -1px -1px 0 1px rgba(0,0,0,0.1),
-        inset 1px 1px 0 1px rgba(255,255,255,0.2)
-      `
-    }
-  };
-
-  const glowStyle = {
-    position: 'absolute' as const,
-    inset: '-25%',
-    background: isAnimating
-      ? 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,215,0,0.8) 30%, rgba(255,255,255,0) 70%)'
-      : 'none',
-    opacity: isAnimating ? 1 : 0,
-    transition: 'opacity 400ms ease-in-out',
-    animation: isAnimating ? 'glowPulse 400ms ease-in-out' : undefined,
-    pointerEvents: 'none' as const,
-    mixBlendMode: 'screen' as const,
-    filter: 'blur(4px)',
-    zIndex: 1,
-  };
-
-  const sparkleStyle = {
-    position: 'absolute' as const,
-    width: '200%',
-    height: '200%',
-    top: '-50%',
-    left: '-50%',
-    opacity: isAnimating ? 1 : 0,
-    animation: isAnimating ? 'sparkle 600ms linear' : undefined,
-    pointerEvents: 'none' as const,
-    zIndex: 2,
-  };
-
-  const sparkleInnerStyle = {
-    position: 'absolute' as const,
-    width: '100%',
-    height: '100%',
-    animation: isAnimating ? 'sparkleSpin 300ms linear infinite' : undefined,
-    backgroundImage: `
-      radial-gradient(circle at 50% 0%, white 0%, transparent 6%),
-      radial-gradient(circle at 100% 50%, white 0%, transparent 6%),
-      radial-gradient(circle at 50% 100%, white 0%, transparent 6%),
-      radial-gradient(circle at 0% 50%, white 0%, transparent 6%),
-      radial-gradient(circle at 85% 15%, white 0%, transparent 5%),
-      radial-gradient(circle at 15% 85%, white 0%, transparent 5%),
-      radial-gradient(circle at 85% 85%, white 0%, transparent 5%),
-      radial-gradient(circle at 15% 15%, white 0%, transparent 5%)
-    `,
-    filter: 'blur(0.5px)',
-  };
-
-  const sparkleInnerStyle2 = {
-    ...sparkleInnerStyle,
-    animation: isAnimating ? 'sparkleSpin2 400ms linear infinite' : undefined,
-    transform: 'scale(0.8)',
-  };
-
-  const imageStyle = {
-    width: '90%',
-    height: '90%',
-    backgroundImage: blockImage ? `url(${blockImage})` : 'none',
-    backgroundSize: 'contain',
+    backgroundImage: blockImage ? `url(${blockImage})` : MINECRAFT_TILE_COLORS[value as keyof typeof MINECRAFT_TILE_COLORS] || 'bg-gray-300',
+    backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    imageRendering: 'pixelated' as const,
-    filter: isAnimating ? 'brightness(1.5) contrast(1.2)' : undefined,
-    transform: isAnimating ? 'scale(1.15)' : 'scale(1)',
-    transition: 'all 150ms ease-in-out',
-    position: 'relative' as const,
-    zIndex: 3,
+    border: '2px solid rgba(0,0,0,0.2)', // Inner border for block depth
+    boxShadow: 'inset 1px 1px 3px rgba(0,0,0,0.2)', // Inner shadow for block depth
+    position: 'relative', // Add relative positioning
   };
 
   const valueStyle = {
-    position: 'absolute' as const,
-    bottom: '2px',
-    right: '4px',
-    fontSize: `${cellSize / 6}px`,
+    position: 'absolute',
+    bottom: '-1px', // Slightly lower
+    right: '8px', // Slightly lower
+    fontSize: '20px', // Increased font size
     fontWeight: 'bold',
-    color: '#fff',
-    textShadow: '1px 1px 2px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8)',
-    zIndex: 11,
-    padding: '2px',
-    lineHeight: 1,
+    color: 'white',
+    textShadow: '2px 2px 3px rgba(0,0,0,0.6)', // Slightly stronger shadow
+    zIndex: 10,
   };
 
   return (
-    <div style={containerStyle}>
-      <style>
-        {`
-          @keyframes tileSpawn {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-          }
-
-          @keyframes glowPulse {
-            0% { opacity: 0; transform: scale(0.8) rotate(0deg); }
-            50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
-            100% { opacity: 0; transform: scale(1.4) rotate(360deg); }
-          }
-
-          @keyframes sparkle {
-            0% { transform: scale(0.4) rotate(0deg); opacity: 0; }
-            25% { transform: scale(0.8) rotate(90deg); opacity: 1; }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
-            75% { transform: scale(0.8) rotate(270deg); opacity: 1; }
-            100% { transform: scale(0.4) rotate(360deg); opacity: 0; }
-          }
-
-          @keyframes sparkleSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-
-          @keyframes sparkleSpin2 {
-            from { transform: rotate(360deg) scale(0.8); }
-            to { transform: rotate(0deg) scale(0.8); }
-          }
-
-          @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-          }
-        `}
-      </style>
-      <div style={imageContainerStyle}>
-        <div style={glowStyle} />
-        <div style={sparkleStyle}>
-          <div style={sparkleInnerStyle} />
-          <div style={sparkleInnerStyle2} />
-        </div>
-        <div style={imageStyle} />
-        <div style={valueStyle}>{value}</div>
+    <div 
+      style={tileStyle}
+      className={`tile-container ${isAnimating ? 'animate-merge' : ''}`}
+    >
+      <div 
+        style={blockStyle} 
+        className={`tile-block relative flex items-center justify-center`}
+      >
+        {value > 1 && (
+          <span style={valueStyle} className="absolute bottom-1 right-1">
+            {value}
+          </span>
+        )}
       </div>
     </div>
   );
