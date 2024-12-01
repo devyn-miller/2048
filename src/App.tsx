@@ -363,10 +363,10 @@ export default function App() {
       <BackgroundProvider>
         <AudioProvider>
           <div className="min-h-screen flex flex-col">
-            <div className="flex-grow">
+            <div className="flex-grow relative">
               <Game />
             </div>
-            <div className="relative z-20">
+            <div className="relative z-10">
               <Footer />
             </div>
           </div>
