@@ -35,18 +35,21 @@ export function ShareScore({ score, bestScore, config, gameOver, won, grid }: Sh
 
   const getTileNameFromValue = (value: number) => {
     const minecraftTiles = {
-      1: 'Dirt Block',
-      2: 'Stone Block',
-      4: 'Coal Ore',
-      8: 'Iron Ore',
-      16: 'Gold Ore',
-      32: 'Diamond Ore',
-      64: 'Iron Ingot',
-      128: 'Gold Ingot',
-      256: 'Diamond',
-      512: 'Enchanted Diamond',
-      1024: 'Nether Star',
-      2048: 'Ender Dragon Egg'
+              1: 'Dirt Block',
+    2: 'Dirt',
+    4: 'Cobblestone',
+    8: 'Deepslate',
+    16: 'Redstone',
+    32: 'Iron Block',
+    64: 'Gold Block',
+    128: 'Diamond Block',
+    256: 'Emerald Block',
+    512: 'Netherite Block',
+    1024: 'Pink Coral Block',
+    2048: 'Beacon',
+    4096: 'End Stone',
+    8192: 'Obsidian',
+    16384: 'Ender Dragon',
     };
     return minecraftTiles[value] || `Unknown Block (${value})`;
   };
@@ -56,15 +59,17 @@ export function ShareScore({ score, bestScore, config, gameOver, won, grid }: Sh
     const largestTileName = getTileNameFromValue(largestTile);
     const gameStatus = won ? "Crafted the Ultimate Block!" : gameOver ? "Creeper Destroyed Your World!" : "Mining in Progress";
     
-    const shareText = `🧱 MineMerge ⛏️
-Crafted ${getTileNameFromValue(config.winningTile)} on a ${config.gridSize}×${config.gridSize} crafting grid!
-
-💡 Pro Miner Tip: Every block merge counts! Craft strategically and become a MineMerge legend!
-
-Score: ${score}`;
+    const shareText = `${getStatusEmoji()} ${gameStatus}
+    🏅 My Score: ${score}
+    🏆 High Score: ${bestScore}
+    🎉 Largest Tile: ${largestTileName}
+    📐 Grid Size: ${config.gridSize}x${config.gridSize}
+    🎯 Goal Block: ${getTileNameFromValue(config.winningTile)} (${config.winningTile})
+    
+Craft strategically and become a MineMerge legend! Visit ${window.location.href} to play!`
 
     const shareData = {
-      title: 'MineMerge Block Collection',
+      title: '🧱 MineMerge Results ⛏️',
       text: shareText,
     };
 
@@ -84,7 +89,7 @@ Score: ${score}`;
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-stone-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] relative text-white">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-emerald-400">🧱 Minecraft Block Merger 🎮</h2>
+          <h2 className="text-2xl font-bold text-emerald-400">🧱 MineMerge 🎮</h2>
           <div className="relative z-[200]">
             <Tooltip text="Close instructions">
               <button 

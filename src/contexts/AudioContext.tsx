@@ -16,9 +16,9 @@ interface AudioContextType {
 const AudioContext = createContext<AudioContextType | null>(null);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(true); // Start with music on
   const [musicVolume, setMusicVolume] = useState(0.5); // 50% default volume
-  const [effectsVolume, setEffectsVolume] = useState(0.7); // 70% default volume
+  const [effectsVolume, setEffectsVolume] = useState(1); // 100% default volume for break sound
   const breakSoundRef = useRef<HTMLAudioElement | null>(null);
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
 
@@ -34,10 +34,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   }, [effectsVolume]);
 
+  // Start playing background music on mount
+  useEffect(() => {
+    if (bgMusicRef.current && isMusicPlaying) {
+      bgMusicRef.current.play().catch(error => {
+        console.log('Auto-play prevented:', error);
+        setIsMusicPlaying(false);
+      });
+    }
+  }, []);
+
   const playBreakSound = () => {
     if (breakSoundRef.current && effectsVolume > 0) {
-      breakSoundRef.current.currentTime = breakSoundRef.current.duration - 0.5; // Start at last 0.5 seconds
-      breakSoundRef.current.play();
+      breakSoundRef.current.currentTime = 1.8; // Start from beginning
+      breakSoundRef.current.play().catch(error => {
+        console.log('Break sound play prevented:', error);
+      });
     }
   };
 

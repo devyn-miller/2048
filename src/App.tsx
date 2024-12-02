@@ -220,9 +220,11 @@ function MineMerge() {
             <div className="mb-8">
               <div className="text-center mb-8">
                 <img 
-                  src="/2048-nov-29-2024/MineMerge.png" 
+                  className="w-32 h-32 object-contain mx-auto"
+                  src="/MineMerge.png" 
                   alt="MineMerge" 
-                  className="mx-auto mb-2 max-h-24 object-contain" 
+                  width={128}
+                  height={128}
                 />
                 <p className="text-base text-white font-semibold drop-shadow-[0_3px_3px_rgba(0,0,0,1)] font-heading bg-black/50 px-4 py-2 rounded-lg inline-block">
                   Merge Minecraft blocks to create legendary tiles!
